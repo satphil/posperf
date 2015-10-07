@@ -184,7 +184,7 @@ class UARTViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             
             
             let newString = NSString(bytes: &data, length: dataLength, encoding: NSUTF8StringEncoding)
-            printLog(self, "updateConsoleWithIncomingData", newString! as String)
+            printLog(self, funcName: "updateConsoleWithIncomingData", logString: newString! as String)
             
             //Check for notification command & send if needed
 //            if newString?.containsString(self.notificationCommandString) == true {
@@ -412,7 +412,7 @@ class UARTViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             
         }
         else {
-            printLog(self, "keyboardWillHide", "Keyboard frame not found")
+            printLog(self, funcName: "keyboardWillHide", logString: "Keyboard frame not found")
         }
         
     }
@@ -451,7 +451,7 @@ class UARTViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         }
         
         else {
-            printLog(self, "keyboardWillHide", "Keyboard frame not found")
+            printLog(self, funcName: "keyboardWillHide", logString: "Keyboard frame not found")
         }
     
     }

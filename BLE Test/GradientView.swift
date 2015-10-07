@@ -22,7 +22,7 @@ class GradientView: UIView {
 //        
 //        self.setNeedsDisplay()
 //    }
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         endColor = UIColor.whiteColor()
         super.init(coder: aDecoder)
     }

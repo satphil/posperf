@@ -47,12 +47,12 @@ class BLEPeripheral: NSObject, CBPeripheralDelegate {
         
         //Already discovered services
         if currentPeripheral.services != nil{
-            printLog(self, "didConnect", "Skipping service discovery")
+            printLog(self, funcName: "didConnect", logString: "Skipping service discovery")
             peripheral(currentPeripheral, didDiscoverServices: nil)  //already discovered services, DO NOT re-discover. Just pass along the peripheral.
             return
         }
         
-        printLog(self, "didConnect", "Starting service discovery")
+        printLog(self, funcName: "didConnect", logString: "Starting service discovery")
         
         switch withMode.rawValue {
         case ConnectionMode.UART.rawValue,
@@ -64,7 +64,7 @@ class BLEPeripheral: NSObject, CBPeripheralDelegate {
             currentPeripheral.discoverServices(nil)
             break
         default:
-            printLog(self, "didConnect", "non-matching mode")
+            printLog(self, funcName: "didConnect", logString: "non-matching mode")
             break
         }
         
@@ -89,7 +89,7 @@ class BLEPeripheral: NSObject, CBPeripheralDelegate {
         //Send data to peripheral
         
         if (txCharacteristic == nil){
-            printLog(self, "writeRawData", "Unable to write data without txcharacteristic")
+            printLog(self, funcName: "writeRawData", logString: "Unable to write data without txcharacteristic")
             return
         }
         
@@ -107,7 +107,7 @@ class BLEPeripheral: NSObject, CBPeripheralDelegate {
         }
             
         else{
-            printLog(self, "writeRawData", "Unable to write data without characteristic write property")
+            printLog(self, funcName: "writeRawData", logString: "Unable to write data without characteristic write property")
             return
         }
         
@@ -153,14 +153,14 @@ class BLEPeripheral: NSObject, CBPeripheralDelegate {
     
     //MARK: CBPeripheral Delegate methods
     
-    func peripheral(peripheral: CBPeripheral!, didDiscoverServices error: NSError!) {
+    func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
         
         //Respond to finding a new service on peripheral
         
         if error != nil {
             
 //            handleError("\(self.classForCoder.description()) didDiscoverServices : Error discovering services")
-            printLog(self, "didDiscoverServices", "\(error.debugDescription)")
+            printLog(self, funcName: "didDiscoverServices", logString: "\(error.debugDescription)")
             
             return
         }
@@ -202,23 +202,23 @@ class BLEPeripheral: NSObject, CBPeripheralDelegate {
             
         }
         
-        printLog(self, "didDiscoverServices", "all top-level services discovered")
+        printLog(self, funcName: "didDiscoverServices", logString: "all top-level services discovered")
         
     }
     
     
-    func peripheral(peripheral: CBPeripheral!, didDiscoverCharacteristicsForService service: CBService!, error: NSError!) {
+    func peripheral(peripheral: CBPeripheral, didDiscoverCharacteristicsForService service: CBService, error: NSError?) {
         
         //Respond to finding a new characteristic on service
         
         if error != nil {
 //            handleError("Error discovering characteristics")
-            printLog(self, "didDiscoverCharacteristicsForService", "\(error.debugDescription)")
+            printLog(self, funcName: "didDiscoverCharacteristicsForService", logString: "\(error.debugDescription)")
             
             return
         }
         
-        printLog(self, "didDiscoverCharacteristicsForService", "\(service.description) with \(service.characteristics.count) characteristics")
+        printLog(self, funcName: "didDiscoverCharacteristicsForService", logString: "\(service.description) with \(service.characteristics.count) characteristics")
         
         // UART mode
         if  delegate.connectionMode == ConnectionMode.UART ||
@@ -271,11 +271,11 @@ class BLEPeripheral: NSObject, CBPeripheralDelegate {
     }
     
     
-    func peripheral(peripheral: CBPeripheral!, didDiscoverDescriptorsForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {
+    func peripheral(peripheral: CBPeripheral, didDiscoverDescriptorsForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
         
         if error != nil {
 //            handleError("Error discovering descriptors \(error.debugDescription)")
-            printLog(self, "didDiscoverDescriptorsForCharacteristic", "\(error.debugDescription)")
+            printLog(self, funcName: "didDiscoverDescriptorsForCharacteristic", logString: "\(error.debugDescription)")
 //            return
         }
         
@@ -331,13 +331,13 @@ class BLEPeripheral: NSObject, CBPeripheralDelegate {
 //    }
     
     
-    func peripheral(peripheral: CBPeripheral!, didUpdateValueForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {
+    func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
         
         //Respond to value change on peripheral
         
         if error != nil {
 //            handleError("Error updating value for characteristic\(characteristic.description.utf8) \(error.description.utf8)")
-            printLog(self, "didUpdateValueForCharacteristic", "\(error.debugDescription)")
+            printLog(self, funcName: "didUpdateValueForCharacteristic", logString: "\(error.debugDescription)")
             return
         }
         
@@ -352,7 +352,7 @@ class BLEPeripheral: NSObject, CBPeripheralDelegate {
                 
             }
                 //TODO: Finalize for info mode
-            else if UUIDsAreEqual(characteristic.UUID, softwareRevisionStringUUID()) {
+            else if UUIDsAreEqual(characteristic.UUID, secondID: softwareRevisionStringUUID()) {
                 
                 var swRevision = NSString(string: "")
                 let bytes:UnsafePointer<Void> = characteristic.value.bytes
@@ -374,16 +374,16 @@ class BLEPeripheral: NSObject, CBPeripheralDelegate {
     }
     
     
-    func peripheral(peripheral: CBPeripheral!, didDiscoverIncludedServicesForService service: CBService!, error: NSError!) {
+    func peripheral(peripheral: CBPeripheral, didDiscoverIncludedServicesForService service: CBService, error: NSError?) {
         
         //Respond to finding a new characteristic on service
         
         if error != nil {
-            printLog(self, "didDiscoverIncludedServicesForService", "\(error.debugDescription)")
+            printLog(self, funcName: "didDiscoverIncludedServicesForService", logString: "\(error.debugDescription)")
             return
         }
         
-        printLog(self, "didDiscoverIncludedServicesForService", "service: \(service.description) has \(service.includedServices.count) included services")
+        printLog(self, funcName: "didDiscoverIncludedServicesForService", logString: "service: \(service.description) has \(service.includedServices.count) included services")
         
         //        if service.characteristics.count == 0 {
         //            currentPeripheral.discoverIncludedServices(nil, forService: service)
@@ -399,7 +399,7 @@ class BLEPeripheral: NSObject, CBPeripheralDelegate {
     
     func handleError(errorString:String) {
         
-        printLog(self, "Error", "\(errorString)")
+        printLog(self, funcName: "Error", logString: "\(errorString)")
         
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             self.delegate.uartDidEncounterError(errorString)

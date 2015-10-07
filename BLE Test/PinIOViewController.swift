@@ -271,7 +271,7 @@ class PinIOViewController : UIViewController, UITableViewDataSource, UITableView
         //Enable input/output for a digital pin
         
         //Enable by port
-        var data0:UInt8 = 0xd0 + port  //start port 0 digital reporting (207 + port#)
+        let data0:UInt8 = 0xd0 + port  //start port 0 digital reporting (207 + port#)
         var data1:UInt8 = 0 //Enable
         if enabled {data1 = 1}
         
@@ -287,7 +287,7 @@ class PinIOViewController : UIViewController, UITableViewDataSource, UITableView
         //Enable analog read for a pin
         
         //Enable by pin
-        var data0:UInt8 = 0xc0 + UInt8(pin)          //start analog reporting for pin (192 + pin#)
+        let data0:UInt8 = 0xc0 + UInt8(pin)          //start analog reporting for pin (192 + pin#)
         var data1:UInt8 = 0    //Enable
         if enabled {data1 = 1}
         
@@ -316,7 +316,7 @@ class PinIOViewController : UIViewController, UITableViewDataSource, UITableView
         cell?.setDigitalValue(state)
     
     //Send value change to BLEBB
-        var pin = cell?.digitalPin
+        let pin = cell?.digitalPin
         writePinState(pinStateForInt(Int(state)), pin: UInt8(pin!))
         
 //        printLog(self, "digitalControlChanged", "state = \(state) : pin = \(pin)")
@@ -363,7 +363,7 @@ class PinIOViewController : UIViewController, UITableViewDataSource, UITableView
         updateTable()
         
         //if opening, scroll table until cell is visible after delay
-        delay(0.25, { () -> () in
+        delay(0.25, closure: { () -> () in
             self.scrollToIndexPath(indexPath)
             return
         })
@@ -457,7 +457,7 @@ class PinIOViewController : UIViewController, UITableViewDataSource, UITableView
         let cell:PinCell = pinCellForpin(sender.tag)!
         
         //Bail if we have a redundant value
-        if (cell.valueLabel.text?.toInt() == Int(sender.value)) {
+        if (Int(cell.valueLabel.text?) == Int(sender.value)) {
             return
         }
         
@@ -515,7 +515,7 @@ class PinIOViewController : UIViewController, UITableViewDataSource, UITableView
         let newData:NSData = NSData(bytes: bytes, length: 3)
         delegate!.sendData(newData)
         
-        printLog(self, "setting pin states -->", "[\(binaryforByte(portMasks[0]))] [\(binaryforByte(portMasks[1]))] [\(binaryforByte(portMasks[2]))]")
+        printLog(self, funcName: "setting pin states -->", logString: "[\(binaryforByte(portMasks[0]))] [\(binaryforByte(portMasks[1]))] [\(binaryforByte(portMasks[2]))]")
         
     }
     
@@ -569,7 +569,7 @@ class PinIOViewController : UIViewController, UITableViewDataSource, UITableView
         var data = [UInt8](count: 20, repeatedValue: 0)
         var buf = [UInt8](count: 512, repeatedValue: 0)  //static only works on classes & structs in swift
         var length:Int = 0                               //again, was static
-        var dataLength:Int = newData.length
+        let dataLength:Int = newData.length
         
         newData.getBytes(&data, length: dataLength)
         
@@ -603,7 +603,7 @@ class PinIOViewController : UIViewController, UITableViewDataSource, UITableView
         //Parse data we received
         
 //        printLog(self, "processInputData", "data = \(data[0]) : length = \(length)")
-        printLog(self, "received data", "data = \(data[0]) : length = \(length)")
+        printLog(self, funcName: "received data", logString: "data = \(data[0]) : length = \(length)")
         
         //each message is 3 bytes long
         for (var i = 0; i < length; i+=3){
@@ -653,13 +653,13 @@ class PinIOViewController : UIViewController, UITableViewDataSource, UITableView
     
         //For debugging in dev
     
-        var hexString:NSString = newData.hexRepresentationWithSpaces(true)
+        let hexString:NSString = newData.hexRepresentationWithSpaces(true)
     
         debugConsole!.text = debugConsole!.text.stringByAppendingString("\n \(hexString)")
     
         //scroll output to bottom
         if (debugConsole!.hidden == false) {
-            let range = NSMakeRange(count(debugConsole!.text), 0)
+            let range = NSMakeRange(debugConsole!.text.characters.count, 0)
             debugConsole!.scrollRangeToVisible(range)
             
             debugConsole!.scrollEnabled = false
@@ -672,7 +672,7 @@ class PinIOViewController : UIViewController, UITableViewDataSource, UITableView
     func updateForPinStates(pinStates:Int, port:Int) {
         
 //        printLog(self, "updateForPinStates", "port = \(port) : pinStates = \(pinStates)")
-        printLog(self, "getting pin states <--", "[\(binaryforByte(portMasks[0]))] [\(binaryforByte(portMasks[1]))] [\(binaryforByte(portMasks[2]))]")
+        printLog(self, funcName: "getting pin states <--", logString: "[\(binaryforByte(portMasks[0]))] [\(binaryforByte(portMasks[1]))] [\(binaryforByte(portMasks[2]))]")
         
         //Update pin table with new pin values received
         
@@ -752,13 +752,13 @@ class PinIOViewController : UIViewController, UITableViewDataSource, UITableView
         
         //Set cell texts & type
         if indexPath.section == DIGITAL_PIN_SECTION{      //Digital Pins 2-7
-            var pin = indexPath.row + FIRST_DIGITAL_PIN
+            let pin = indexPath.row + FIRST_DIGITAL_PIN
             cell = self.pinCellForpin(pin)
             
         }
             
         else if indexPath.section == ANALOG_PIN_SECTION{  //Analog Pins A0-A5
-            var pin = indexPath.row + FIRST_ANALOG_PIN
+            let pin = indexPath.row + FIRST_ANALOG_PIN
             cell = self.pinCellForpin(pin)
         }
         
@@ -799,7 +799,7 @@ class PinIOViewController : UIViewController, UITableViewDataSource, UITableView
         
         //selected
         if (indexPath.compare(openCellPath) == NSComparisonResult.OrderedSame) {
-            var mode = cell?.mode
+            let mode = cell?.mode
             if (mode == PinMode.Input || mode == PinMode.Analog) {
                 height = ROW_HEIGHT_INPUT
             }
@@ -861,7 +861,7 @@ class PinIOViewController : UIViewController, UITableViewDataSource, UITableView
         
         var indexPath: NSIndexPath?
         var counter = 0
-        var limit = 20
+        let limit = 20
         var aView:UIView? = theView
         
         while (indexPath == nil) {

@@ -33,7 +33,7 @@ class BLEAppDelegate: UIResponder, UIApplicationDelegate {
         // Ask user for permision to show local notifications
         if(UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:")))
         {
-            application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Sound | UIUserNotificationType.Alert | UIUserNotificationType.Badge, categories: nil))
+            application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [UIUserNotificationType.Sound, UIUserNotificationType.Alert, UIUserNotificationType.Badge], categories: nil))
         }
         else
         {
@@ -74,7 +74,7 @@ class BLEAppDelegate: UIResponder, UIApplicationDelegate {
     //WatchKit request
     func application(application: UIApplication,
         handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]?,
-        reply: (([NSObject : AnyObject]!) -> Void)!) {
+        reply: (([NSObject : AnyObject]?) -> Void)) {
             
             // 1
             if let userInfo = userInfo, request = userInfo["type"] as? String {
