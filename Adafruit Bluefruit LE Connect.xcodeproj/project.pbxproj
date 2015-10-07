@@ -405,7 +405,7 @@
 				CLASSPREFIX = BLE;
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Adafruit Industries";
 				TargetAttributes = {
 					F0A2C96516BBE44500F2FD12 = {
@@ -580,6 +580,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Adafruit Industries LLC (2X94RM7457)";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
