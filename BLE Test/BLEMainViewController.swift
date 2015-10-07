@@ -582,7 +582,7 @@ DeviceListViewControllerDelegate {
 //                
 //                // Returning from UART
 //            else if connectionMode == ConnectionMode.UART {
-                uartViewController?.inputTextView.resignFirstResponder()
+                //uartViewController?.inputTextView.resignFirstResponder()
                 
                 if connectionStatus == ConnectionStatus.Connected {
                     disconnect()
