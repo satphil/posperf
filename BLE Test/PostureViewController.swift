@@ -1,5 +1,5 @@
 
-//  UARTViewController.swift
+//  PostureViewController.swift
 //  Adafruit Bluefruit LE Connect
 //
 //  Created by Collin Cunningham on 9/30/14.
@@ -11,18 +11,18 @@ import UIKit
 import Dispatch
 
 
-protocol UARTViewControllerDelegate: HelpViewControllerDelegate {
+protocol PostureViewControllerDelegate: HelpViewControllerDelegate {
     func sendData(newData:NSData)
 }
 
 
-class UARTViewController: UIViewController {
+class PostureViewController: UIViewController {
     
-    var delegate:UARTViewControllerDelegate?
+    var delegate:PostureViewControllerDelegate?
     @IBOutlet var helpViewController:HelpViewController!
     
-    convenience init(aDelegate:UARTViewControllerDelegate){
-        self.init(nibName: "UARTViewController" as String, bundle: NSBundle.mainBundle())
+    convenience init(aDelegate:PostureViewControllerDelegate){
+        self.init(nibName: "PostureViewController" as String, bundle: NSBundle.mainBundle())
         
         self.delegate = aDelegate
         self.title = "Posture"

@@ -41,7 +41,7 @@
 		F00F74311A80A8570014CF12 /* ble_blue_1px.png in Resources */ = {isa = PBXBuildFile; fileRef = F00F74301A80A8570014CF12 /* ble_blue_1px.png */; };
 		F02811C619ED19AA00D48BA5 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02811C519ED19AA00D48BA5 /* Extensions.swift */; };
 		F02F2BB519EE83AC0057F374 /* DeviceListViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = F02F2BB419EE83AC0057F374 /* DeviceListViewController_iPhone.xib */; };
-		F051AAD719DA96F7009A1383 /* UARTViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F051AAD619DA96F7009A1383 /* UARTViewController.swift */; };
+		F051AAD719DA96F7009A1383 /* PostureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F051AAD619DA96F7009A1383 /* PostureViewController.swift */; };
 		F05E7E0318BEF399005E25F6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F05E7E0218BEF399005E25F6 /* Images.xcassets */; };
 		F060841019F4CF8F0058B4E4 /* AttributeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F060840F19F4CF8F0058B4E4 /* AttributeCell.swift */; };
 		F0718E0019EE77F4002B5ABB /* DeviceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0718DFF19EE77F4002B5ABB /* DeviceListViewController.swift */; };
@@ -92,7 +92,7 @@
 		F0F889A91A009B81008AA257 /* BLEInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F889A81A009B81008AA257 /* BLEInfo.swift */; };
 		F0F889AB1A00BD55008AA257 /* BLEPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F889AA1A00BD55008AA257 /* BLEPeripheral.swift */; };
 		F0F9C4A919E25BF000AF2352 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F9C4A819E25BF000AF2352 /* HelpViewController.swift */; };
-		F0FB078818C02D9800D263DD /* UARTViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0FB078718C02D9800D263DD /* UARTViewController.xib */; };
+		F0FB078818C02D9800D263DD /* PostureViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0FB078718C02D9800D263DD /* PostureViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -143,7 +143,7 @@
 		F00F74301A80A8570014CF12 /* ble_blue_1px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ble_blue_1px.png; sourceTree = "<group>"; };
 		F02811C519ED19AA00D48BA5 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F02F2BB419EE83AC0057F374 /* DeviceListViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeviceListViewController_iPhone.xib; sourceTree = "<group>"; };
-		F051AAD619DA96F7009A1383 /* UARTViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UARTViewController.swift; sourceTree = "<group>"; };
+		F051AAD619DA96F7009A1383 /* PostureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostureViewController.swift; sourceTree = "<group>"; };
 		F05E7E0218BEF399005E25F6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Adafruit Bluefruit LE Connect/Images.xcassets"; sourceTree = "<group>"; };
 		F060840F19F4CF8F0058B4E4 /* AttributeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeCell.swift; sourceTree = "<group>"; };
 		F0718DFF19EE77F4002B5ABB /* DeviceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceListViewController.swift; sourceTree = "<group>"; };
@@ -199,7 +199,7 @@
 		F0F9C4A819E25BF000AF2352 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		F0F9E3721A77A3A000DBCCE4 /* BluetoothLE Test-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BluetoothLE Test-Bridging-Header.h"; sourceTree = "<group>"; };
 		F0F9E3731A77A51300DBCCE4 /* BluetoothLE Test-prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BluetoothLE Test-prefix.pch"; sourceTree = "<group>"; };
-		F0FB078718C02D9800D263DD /* UARTViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UARTViewController.xib; sourceTree = "<group>"; };
+		F0FB078718C02D9800D263DD /* PostureViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostureViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,7 +229,7 @@
 				F0A2C98716BBE44500F2FD12 /* BLEMainViewController_iPhone.xib */,
 				F02F2BB419EE83AC0057F374 /* DeviceListViewController_iPhone.xib */,
 				F07D973C19F98B9F00CA88CF /* DeviceListViewController_iPad.xib */,
-				F0FB078718C02D9800D263DD /* UARTViewController.xib */,
+				F0FB078718C02D9800D263DD /* PostureViewController.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -281,7 +281,7 @@
 				F0718DFF19EE77F4002B5ABB /* DeviceListViewController.swift */,
 				F0F9C4A819E25BF000AF2352 /* HelpViewController.swift */,
 				F0F5865C19E7C8AB0000E544 /* PinCell.swift */,
-				F051AAD619DA96F7009A1383 /* UARTViewController.swift */,
+				F051AAD619DA96F7009A1383 /* PostureViewController.swift */,
 				F0A2C97016BBE44500F2FD12 /* Supporting Files */,
 				F08BFF4718A4F7E600EF43FB /* UI */,
 			);
@@ -502,7 +502,7 @@
 				F007EDE71A3196090023FCD6 /* ble-button_numbers-rotated-2@2x.png in Resources */,
 				F007EDC91A3191BC0023FCD6 /* ble-arrow_button_up.png in Resources */,
 				F08ACA6C16DD0C0400A377D1 /* cellGradient3-150h.png in Resources */,
-				F0FB078818C02D9800D263DD /* UARTViewController.xib in Resources */,
+				F0FB078818C02D9800D263DD /* PostureViewController.xib in Resources */,
 				F007EDD51A3195110023FCD6 /* ble-button_numbers-2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -514,7 +514,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F051AAD719DA96F7009A1383 /* UARTViewController.swift in Sources */,
+				F051AAD719DA96F7009A1383 /* PostureViewController.swift in Sources */,
 				F0D4AFB91A32505300E9063E /* SensorValueCell.swift in Sources */,
 				F0BCF06819EBDC59006086C6 /* BLEAppDelegate.swift in Sources */,
 				F0F889A91A009B81008AA257 /* BLEInfo.swift in Sources */,

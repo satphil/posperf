@@ -24,7 +24,7 @@ protocol BLEMainViewControllerDelegate : Any {
 }
 
 class BLEMainViewController : UIViewController, UINavigationControllerDelegate, HelpViewControllerDelegate, CBCentralManagerDelegate,
-                              BLEPeripheralDelegate, UARTViewControllerDelegate,
+                              BLEPeripheralDelegate, PostureViewControllerDelegate,
 DeviceListViewControllerDelegate {
     
     enum ConnectionStatus:Int {
@@ -38,7 +38,7 @@ DeviceListViewControllerDelegate {
     var connectionStatus:ConnectionStatus = ConnectionStatus.Idle
     var helpPopoverController:UIPopoverController?
     var navController:UINavigationController!
-    var uartViewController:UARTViewController!
+    var postureViewController:PostureViewController!
     var deviceListViewController:DeviceListViewController!
     var delegate:BLEMainViewControllerDelegate?
     
@@ -157,8 +157,8 @@ DeviceListViewControllerDelegate {
         //        connectionMode = ConnectionMode.Info
         //        connectionStatus = ConnectionStatus.Connected
         //        deviceInfoViewController = DeviceInfoViewController(cbPeripheral: <#CBPeripheral#>, delegate: <#HelpViewControllerDelegate#>)
-        //        uartViewController.navigationItem.rightBarButtonItem = infoBarButton
-        //        pushViewController(uartViewController)
+        //        postureViewController.navigationItem.rightBarButtonItem = infoBarButton
+        //        pushViewController(postureViewController)
         
     }
     
@@ -311,8 +311,8 @@ DeviceListViewControllerDelegate {
 //            hvc = pinIoViewController.helpViewController
 //        }
 //            
-//        else if navController.topViewController.isKindOfClass(UARTViewController){
-            hvc = uartViewController.helpViewController
+//        else if navController.topViewController.isKindOfClass(PostureViewController){
+            hvc = postureViewController.helpViewController
 //        }
 //        else if navController.topViewController.isKindOfClass(DeviceListViewController){
 //            hvc = deviceListViewController.helpViewController
@@ -582,7 +582,7 @@ DeviceListViewControllerDelegate {
 //                
 //                // Returning from UART
 //            else if connectionMode == ConnectionMode.UART {
-                //uartViewController?.inputTextView.resignFirstResponder()
+                //postureViewController?.inputTextView.resignFirstResponder()
                 
                 if connectionStatus == ConnectionStatus.Connected {
                     disconnect()
@@ -802,14 +802,14 @@ DeviceListViewControllerDelegate {
 
     func dereferenceModeController() {
         
-        uartViewController = nil
+        postureViewController = nil
     }
     
     
     func isModuleController(anObject:AnyObject)->Bool{
         
         var verdict = false
-        if anObject.isMemberOfClass(UARTViewController) {
+        if anObject.isMemberOfClass(PostureViewController) {
                 verdict = true
         }
         
@@ -853,9 +853,9 @@ DeviceListViewControllerDelegate {
 //            vc = pinIoViewController
 //            break
         case ConnectionMode.UART:
-            uartViewController = UARTViewController(aDelegate: self)
-            uartViewController.didConnect()
-            vc = uartViewController
+            postureViewController = PostureViewController(aDelegate: self)
+            postureViewController.didConnect()
+            vc = postureViewController
             break
 //        case ConnectionMode.Info:
 //            deviceInfoViewController = DeviceInfoViewController(cbPeripheral: currentPeripheral!.currentPeripheral, delegate: self)
@@ -924,7 +924,7 @@ DeviceListViewControllerDelegate {
             //UART
             if (connectionMode == ConnectionMode.UART) {
                 //send data to UART Controller
-                uartViewController.receiveData(newData)
+                postureViewController.receiveData(newData)
             }
                 
                 //Pin I/O
