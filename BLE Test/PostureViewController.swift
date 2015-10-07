@@ -50,6 +50,7 @@ class PostureViewController: UIViewController {
         NSLog("Transmission: %@", rx);
     }
     
+    // Example test method, see Adafruit_Bluefruit_LE_Connect_Tests.swift
     func numberFive()->Int {
         return 5
     }
