@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D976A771BC5120F00073FAB /* Adafruit_Bluefruit_LE_Connect_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D976A761BC5120F00073FAB /* Adafruit_Bluefruit_LE_Connect_Tests.swift */; };
 		F007EDC31A3191BC0023FCD6 /* ble-arrow_button_down.png in Resources */ = {isa = PBXBuildFile; fileRef = F007EDBB1A3191BC0023FCD6 /* ble-arrow_button_down.png */; };
 		F007EDC41A3191BC0023FCD6 /* ble-arrow_button_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F007EDBC1A3191BC0023FCD6 /* ble-arrow_button_down@2x.png */; };
 		F007EDC51A3191BC0023FCD6 /* ble-arrow_button_left.png in Resources */ = {isa = PBXBuildFile; fileRef = F007EDBD1A3191BC0023FCD6 /* ble-arrow_button_left.png */; };
@@ -95,6 +96,16 @@
 		F0FB078818C02D9800D263DD /* PostureViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0FB078718C02D9800D263DD /* PostureViewController.xib */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8D976A791BC5120F00073FAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F0A2C95E16BBE44500F2FD12 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F0A2C96516BBE44500F2FD12;
+			remoteInfo = "Adafruit Bluefruit LE Connect";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		F0CBE3701B28C309009E0128 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -109,6 +120,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8D976A741BC5120F00073FAB /* Adafruit Bluefruit LE Connect Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Adafruit Bluefruit LE Connect Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D976A761BC5120F00073FAB /* Adafruit_Bluefruit_LE_Connect_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adafruit_Bluefruit_LE_Connect_Tests.swift; sourceTree = "<group>"; };
+		8D976A781BC5120F00073FAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F007EDBB1A3191BC0023FCD6 /* ble-arrow_button_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ble-arrow_button_down.png"; sourceTree = "<group>"; };
 		F007EDBC1A3191BC0023FCD6 /* ble-arrow_button_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ble-arrow_button_down@2x.png"; sourceTree = "<group>"; };
 		F007EDBD1A3191BC0023FCD6 /* ble-arrow_button_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ble-arrow_button_left.png"; sourceTree = "<group>"; };
@@ -203,6 +217,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8D976A711BC5120F00073FAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F0A2C96316BBE44500F2FD12 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -218,6 +239,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D976A751BC5120F00073FAB /* Adafruit Bluefruit LE Connect Tests */ = {
+			isa = PBXGroup;
+			children = (
+				8D976A761BC5120F00073FAB /* Adafruit_Bluefruit_LE_Connect_Tests.swift */,
+				8D976A781BC5120F00073FAB /* Info.plist */,
+			);
+			path = "Adafruit Bluefruit LE Connect Tests";
+			sourceTree = "<group>";
+		};
 		F08BFF4718A4F7E600EF43FB /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -241,6 +271,7 @@
 				F05E7E0218BEF399005E25F6 /* Images.xcassets */,
 				F0A2C96F16BBE44500F2FD12 /* Classes */,
 				F0C47BFD16C229CE002EFADA /* Images */,
+				8D976A751BC5120F00073FAB /* Adafruit Bluefruit LE Connect Tests */,
 				F0A2C96816BBE44500F2FD12 /* Frameworks */,
 				F0A2C96716BBE44500F2FD12 /* Products */,
 			);
@@ -250,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				F0A2C96616BBE44500F2FD12 /* Adafruit Bluefruit LE Connect.app */,
+				8D976A741BC5120F00073FAB /* Adafruit Bluefruit LE Connect Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -375,6 +407,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8D976A731BC5120F00073FAB /* Adafruit Bluefruit LE Connect Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8D976A7B1BC5120F00073FAB /* Build configuration list for PBXNativeTarget "Adafruit Bluefruit LE Connect Tests" */;
+			buildPhases = (
+				8D976A701BC5120F00073FAB /* Sources */,
+				8D976A711BC5120F00073FAB /* Frameworks */,
+				8D976A721BC5120F00073FAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8D976A7A1BC5120F00073FAB /* PBXTargetDependency */,
+			);
+			name = "Adafruit Bluefruit LE Connect Tests";
+			productName = "Adafruit Bluefruit LE Connect Tests";
+			productReference = 8D976A741BC5120F00073FAB /* Adafruit Bluefruit LE Connect Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F0A2C96516BBE44500F2FD12 /* Adafruit Bluefruit LE Connect */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F0A2C99216BBE44500F2FD12 /* Build configuration list for PBXNativeTarget "Adafruit Bluefruit LE Connect" */;
@@ -405,6 +455,11 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Adafruit Industries";
 				TargetAttributes = {
+					8D976A731BC5120F00073FAB = {
+						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = SGUQEHQSRR;
+						TestTargetID = F0A2C96516BBE44500F2FD12;
+					};
 					F0A2C96516BBE44500F2FD12 = {
 						DevelopmentTeam = SGUQEHQSRR;
 						SystemCapabilities = {
@@ -429,11 +484,19 @@
 			projectRoot = "";
 			targets = (
 				F0A2C96516BBE44500F2FD12 /* Adafruit Bluefruit LE Connect */,
+				8D976A731BC5120F00073FAB /* Adafruit Bluefruit LE Connect Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8D976A721BC5120F00073FAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F0A2C96416BBE44500F2FD12 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -510,6 +573,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8D976A701BC5120F00073FAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D976A771BC5120F00073FAB /* Adafruit_Bluefruit_LE_Connect_Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F0A2C96216BBE44500F2FD12 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -533,6 +604,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8D976A7A1BC5120F00073FAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F0A2C96516BBE44500F2FD12 /* Adafruit Bluefruit LE Connect */;
+			targetProxy = 8D976A791BC5120F00073FAB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		F0A2C97216BBE44500F2FD12 /* InfoPlist.strings */ = {
@@ -562,6 +641,69 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8D976A7C1BC5120F00073FAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "Adafruit Bluefruit LE Connect Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "HD.Adafruit-Bluefruit-LE-Connect-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Adafruit Bluefruit LE Connect.app/Adafruit Bluefruit LE Connect";
+			};
+			name = Debug;
+		};
+		8D976A7D1BC5120F00073FAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "Adafruit Bluefruit LE Connect Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "HD.Adafruit-Bluefruit-LE-Connect-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Adafruit Bluefruit LE Connect.app/Adafruit Bluefruit LE Connect";
+			};
+			name = Release;
+		};
 		F0A2C99016BBE44500F2FD12 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -671,6 +813,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8D976A7B1BC5120F00073FAB /* Build configuration list for PBXNativeTarget "Adafruit Bluefruit LE Connect Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D976A7C1BC5120F00073FAB /* Debug */,
+				8D976A7D1BC5120F00073FAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		F0A2C96116BBE44500F2FD12 /* Build configuration list for PBXProject "Adafruit Bluefruit LE Connect" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
