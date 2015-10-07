@@ -25,7 +25,7 @@ class HelpViewController : UIViewController {
     @IBOutlet var textView : UITextView?
     
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     

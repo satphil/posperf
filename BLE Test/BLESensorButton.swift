@@ -22,7 +22,7 @@ class BLESensorButton: UIButton {
         self.customizeButton()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         dimmed = false
         super.init(coder: aDecoder)
         self.customizeButton()

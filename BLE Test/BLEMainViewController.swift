@@ -24,7 +24,7 @@ protocol BLEMainViewControllerDelegate : Any {
 }
 
 class BLEMainViewController : UIViewController, UINavigationControllerDelegate, HelpViewControllerDelegate, CBCentralManagerDelegate,
-                              BLEPeripheralDelegate, UARTViewControllerDelegate, PinIOViewControllerDelegate,
+                              BLEPeripheralDelegate, PostureViewControllerDelegate,
 DeviceListViewControllerDelegate {
     
     enum ConnectionStatus:Int {
@@ -38,12 +38,8 @@ DeviceListViewControllerDelegate {
     var connectionStatus:ConnectionStatus = ConnectionStatus.Idle
     var helpPopoverController:UIPopoverController?
     var navController:UINavigationController!
-    var pinIoViewController:PinIOViewController!
-    var uartViewController:UARTViewController!
+    var postureViewController:PostureViewController!
     var deviceListViewController:DeviceListViewController!
-    var deviceInfoViewController:DeviceInfoViewController!
-    var controllerViewController:ControllerViewController!
-    var dfuViewController:DFUViewController!
     var delegate:BLEMainViewControllerDelegate?
     
     @IBOutlet var infoButton:UIButton!
@@ -93,7 +89,7 @@ DeviceListViewControllerDelegate {
     }
     
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
         
@@ -107,7 +103,7 @@ DeviceListViewControllerDelegate {
             delegate = newDelegate as? BLEMainViewControllerDelegate
         }
         else {
-            printLog(self, "setDelegate", "failed to set delegate")
+            printLog(self, funcName: "setDelegate", logString: "failed to set delegate")
         }
         
     }
@@ -127,7 +123,7 @@ DeviceListViewControllerDelegate {
         navController.toolbar.barStyle = UIBarStyle.Black
         navController.toolbar.translucent = false
         navController.toolbarHidden = false
-        navController.interactivePopGestureRecognizer.enabled = false
+        navController.interactivePopGestureRecognizer!.enabled = false
         
         if IS_IPHONE {
             addChildViewController(navController)
@@ -161,8 +157,8 @@ DeviceListViewControllerDelegate {
         //        connectionMode = ConnectionMode.Info
         //        connectionStatus = ConnectionStatus.Connected
         //        deviceInfoViewController = DeviceInfoViewController(cbPeripheral: <#CBPeripheral#>, delegate: <#HelpViewControllerDelegate#>)
-        //        uartViewController.navigationItem.rightBarButtonItem = infoBarButton
-        //        pushViewController(uartViewController)
+        //        postureViewController.navigationItem.rightBarButtonItem = infoBarButton
+        //        pushViewController(postureViewController)
         
     }
     
@@ -214,7 +210,7 @@ DeviceListViewControllerDelegate {
         buttonCopy.addTarget(self, action: Selector("showInfo:"), forControlEvents: UIControlEvents.TouchUpInside)
         infoBarButton = UIBarButtonItem(customView: buttonCopy)
         deviceListViewController = DeviceListViewController(aDelegate: self)
-        deviceListViewController.navigationItem.rightBarButtonItem = infoBarButton
+        //deviceListViewController.navigationItem.rightBarButtonItem = infoBarButton
         deviceListViewController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Disconnect", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         //add scan indicator to toolbar
         scanIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
@@ -250,7 +246,6 @@ DeviceListViewControllerDelegate {
             
             //If scan indicator is in toolbar items, remove it
             let count:Int = deviceListViewController.toolbarItems!.count
-            var index = -1
             for i in 0...(count-1) {
                 if deviceListViewController.toolbarItems?[i] === scanIndicatorItem {
                     deviceListViewController.toolbarItems?.removeAtIndex(i)
@@ -312,28 +307,28 @@ DeviceListViewControllerDelegate {
         
         var hvc:HelpViewController
         
-        if navController.topViewController.isKindOfClass(PinIOViewController){
-            hvc = pinIoViewController.helpViewController
-        }
-            
-        else if navController.topViewController.isKindOfClass(UARTViewController){
-            hvc = uartViewController.helpViewController
-        }
-        else if navController.topViewController.isKindOfClass(DeviceListViewController){
-            hvc = deviceListViewController.helpViewController
-        }
-        else if navController.topViewController.isKindOfClass(DeviceInfoViewController){
-            hvc = deviceInfoViewController.helpViewController
-        }
-        else if navController.topViewController.isKindOfClass(ControllerViewController){
-            hvc = controllerViewController.helpViewController
-        }
-            //Add DFU help
-            
-        else{
-            hvc = helpViewController
-        }
-        
+//        if navController.topViewController.isKindOfClass(PinIOViewController){
+//            hvc = pinIoViewController.helpViewController
+//        }
+//            
+//        else if navController.topViewController.isKindOfClass(PostureViewController){
+            hvc = postureViewController.helpViewController
+//        }
+//        else if navController.topViewController.isKindOfClass(DeviceListViewController){
+//            hvc = deviceListViewController.helpViewController
+//        }
+//        else if navController.topViewController.isKindOfClass(DeviceInfoViewController){
+//            hvc = deviceInfoViewController.helpViewController
+//        }
+//        else if navController.topViewController.isKindOfClass(ControllerViewController){
+//            hvc = controllerViewController.helpViewController
+//        }
+//            //Add DFU help
+//            
+//        else{
+//            hvc = helpViewController
+//        }
+//        
         return hvc
         
     }
@@ -366,7 +361,7 @@ DeviceListViewControllerDelegate {
             helpPopoverController = UIPopoverController(contentViewController: currentHelpViewController())
             helpPopoverController?.backgroundColor = UIColor.darkGrayColor()
             
-            let rightBBI:UIBarButtonItem! = navController.navigationBar.items.last!.rightBarButtonItem
+            let rightBBI:UIBarButtonItem! = navController.navigationBar.items!.last!.rightBarButtonItem
             let aFrame:CGRect = rightBBI!.customView!.frame
             helpPopoverController?.presentPopoverFromRect(aFrame,
                 inView: rightBBI.customView!.superview!,
@@ -385,13 +380,13 @@ DeviceListViewControllerDelegate {
             return
         }
         
-        printLog(self, "connectPeripheral", "")
+        printLog(self, funcName: "connectPeripheral", logString: "")
         
         connectionTimer?.invalidate()
         
         if cm == nil {
             //            println(self.description)
-            printLog(self, (__FUNCTION__), "No central Manager found, unable to connect peripheral")
+            printLog(self, funcName: (__FUNCTION__), logString: "No central Manager found, unable to connect peripheral")
             return
         }
         
@@ -428,11 +423,11 @@ DeviceListViewControllerDelegate {
         
         //        connect device w services: dfuServiceUUID, deviceInfoServiceUUID
         
-        printLog(self, (__FUNCTION__), self.description)
+        printLog(self, funcName: (__FUNCTION__), logString: self.description)
         
         if cm == nil {
             //            println(self.description)
-            printLog(self, (__FUNCTION__), "No central Manager found, unable to connect peripheral")
+            printLog(self, funcName: (__FUNCTION__), logString: "No central Manager found, unable to connect peripheral")
             return
         }
         
@@ -477,7 +472,7 @@ DeviceListViewControllerDelegate {
         
         //Notify user that connection timed out
         let alert = UIAlertController(title: "Connection timed out", message: "No response from peripheral", preferredStyle: UIAlertControllerStyle.Alert)
-        let aaOk = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel) { (aa:UIAlertAction!) -> Void in }
+        let aaOk = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel) { (aa:UIAlertAction) -> Void in }
         alert.addAction(aaOk)
         self.presentViewController(alert, animated: true) { () -> Void in }
         
@@ -488,7 +483,7 @@ DeviceListViewControllerDelegate {
         
         connectionTimer?.invalidate()
         
-        cm?.cancelPeripheralConnection(currentPeripheral?.currentPeripheral)
+        cm?.cancelPeripheralConnection((currentPeripheral?.currentPeripheral)!)
         
         currentPeripheral = nil
         
@@ -499,21 +494,21 @@ DeviceListViewControllerDelegate {
     
     func disconnect() {
         
-        printLog(self, (__FUNCTION__), "")
+        printLog(self, funcName: (__FUNCTION__), logString: "")
         
         if connectionMode == ConnectionMode.DFU && dfuPeripheral != nil{
-            cm!.cancelPeripheralConnection(dfuPeripheral)
+            cm!.cancelPeripheralConnection(dfuPeripheral!)
             dfuPeripheral = nil
             return
         }
         
         if cm == nil {
-            printLog(self, (__FUNCTION__), "No central Manager found, unable to disconnect peripheral")
+            printLog(self, funcName: (__FUNCTION__), logString: "No central Manager found, unable to disconnect peripheral")
             return
         }
             
         else if currentPeripheral == nil {
-            printLog(self, (__FUNCTION__), "No current peripheral found, unable to disconnect peripheral")
+            printLog(self, funcName: (__FUNCTION__), logString: "No current peripheral found, unable to disconnect peripheral")
             return
         }
         
@@ -538,7 +533,7 @@ DeviceListViewControllerDelegate {
         else if (connectionStatus == ConnectionStatus.Scanning){
             
             if cm == nil {
-                printLog(self, "alertView clickedButtonAtIndex", "No central Manager found, unable to stop scan")
+                printLog(self, funcName: "alertView clickedButtonAtIndex", logString: "No central Manager found, unable to stop scan")
                 return
             }
             
@@ -579,60 +574,60 @@ DeviceListViewControllerDelegate {
         if viewController === deviceListViewController {
             
             // Returning from Device Info
-            if connectionMode == ConnectionMode.Info {
+//            if connectionMode == ConnectionMode.Info {
+//                if connectionStatus == ConnectionStatus.Connected {
+//                    disconnect()
+//                }
+//            }
+//                
+//                // Returning from UART
+//            else if connectionMode == ConnectionMode.UART {
+                //postureViewController?.inputTextView.resignFirstResponder()
+                
                 if connectionStatus == ConnectionStatus.Connected {
                     disconnect()
                 }
-            }
-                
-                // Returning from UART
-            else if connectionMode == ConnectionMode.UART {
-                uartViewController?.inputTextView.resignFirstResponder()
-                
-                if connectionStatus == ConnectionStatus.Connected {
-                    disconnect()
-                }
-            }
-                
-                // Returning from Pin I/O
-            else if connectionMode == ConnectionMode.PinIO {
-                if connectionStatus == ConnectionStatus.Connected {
-                    disconnect()
-                }
-            }
-                
-                // Returning from Controller
-            else if connectionMode == ConnectionMode.Controller {
-                controllerViewController?.stopSensorUpdates()
-                if connectionStatus == ConnectionStatus.Connected {
-                    disconnect()
-                }
-            }
-                
-                // Returning from DFU
-            else if connectionMode == ConnectionMode.DFU {
-                //                if connectionStatus == ConnectionStatus.Connected {
-                disconnect()
-                //                }
-                //return cbcentralmanager delegation to self
-                cm?.delegate = self
-                connectionMode = ConnectionMode.None
-                dereferenceModeController()
-            }
-                
-                // Starting in device list
-                // Start scaning if bluetooth is enabled
-            else if (connectionStatus == ConnectionStatus.Idle) && (cm?.state != CBCentralManagerState.PoweredOff) {
-                startScan()
-            }
+//            }
+//                
+//                // Returning from Pin I/O
+//            else if connectionMode == ConnectionMode.PinIO {
+//                if connectionStatus == ConnectionStatus.Connected {
+//                    disconnect()
+//                }
+//            }
+//                
+//                // Returning from Controller
+//            else if connectionMode == ConnectionMode.Controller {
+//                controllerViewController?.stopSensorUpdates()
+//                if connectionStatus == ConnectionStatus.Connected {
+//                    disconnect()
+//                }
+//            }
+//                
+//                // Returning from DFU
+//            else if connectionMode == ConnectionMode.DFU {
+//                //                if connectionStatus == ConnectionStatus.Connected {
+//                disconnect()
+//                //                }
+//                //return cbcentralmanager delegation to self
+//                cm?.delegate = self
+//                connectionMode = ConnectionMode.None
+//                dereferenceModeController()
+//            }
+//                
+//                // Starting in device list
+//                // Start scaning if bluetooth is enabled
+//            else if (connectionStatus == ConnectionStatus.Idle) && (cm?.state != CBCentralManagerState.PoweredOff) {
+//                startScan()
+//            }
             
             //All modes hide toolbar except for device list
             navController.setToolbarHidden(false, animated: true)
         }
             //DFU mode doesn't maintain a connection, so back button sez "Back"!
-        else if dfuViewController != nil && viewController == dfuViewController {
-            deviceListViewController.navigationItem.backBarButtonItem?.title = "Back"
-        }
+//        else if dfuViewController != nil && viewController == dfuViewController {
+//            deviceListViewController.navigationItem.backBarButtonItem?.title = "Back"
+//        }
             
             //All modes hide toolbar except for device list
         else {
@@ -644,7 +639,7 @@ DeviceListViewControllerDelegate {
     
     //MARK: CBCentralManagerDelegate methods
     
-    func centralManagerDidUpdateState(central: CBCentralManager!) {
+    func centralManagerDidUpdateState(central: CBCentralManager) {
         
         if (central.state == CBCentralManagerState.PoweredOn){
             
@@ -659,7 +654,7 @@ DeviceListViewControllerDelegate {
     }
     
     
-    func centralManager(central: CBCentralManager!, didDiscoverPeripheral peripheral: CBPeripheral!, advertisementData: [NSObject : AnyObject]!, RSSI: NSNumber!) {
+    func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
         
         if connectionMode == ConnectionMode.None {
             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
@@ -679,7 +674,7 @@ DeviceListViewControllerDelegate {
     }
     
     
-    func centralManager(central: CBCentralManager!, didConnectPeripheral peripheral: CBPeripheral!) {
+    func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
         
         if (delegate != nil) {
             delegate!.onDeviceConnectionChange(peripheral)
@@ -691,18 +686,18 @@ DeviceListViewControllerDelegate {
         }
         
         if currentPeripheral == nil {
-            printLog(self, "didConnectPeripheral", "No current peripheral found, unable to connect")
+            printLog(self, funcName: "didConnectPeripheral", logString: "No current peripheral found, unable to connect")
             return
         }
         
         
         if currentPeripheral!.currentPeripheral == peripheral {
             
-            printLog(self, "didConnectPeripheral", "\(peripheral.name)")
+            printLog(self, funcName: "didConnectPeripheral", logString: "\(peripheral.name)")
             
             //Discover Services for device
             if((peripheral.services) != nil){
-                printLog(self, "didConnectPeripheral", "Did connect to existing peripheral \(peripheral.name)")
+                printLog(self, funcName: "didConnectPeripheral", logString: "Did connect to existing peripheral \(peripheral.name)")
                 currentPeripheral!.peripheral(peripheral, didDiscoverServices: nil)  //already discovered services, DO NOT re-discover. Just pass along the peripheral.
             }
             else {
@@ -713,7 +708,7 @@ DeviceListViewControllerDelegate {
     }
     
     
-    func centralManager(central: CBCentralManager!, didDisconnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
+    func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
         
         //respond to disconnection
         
@@ -726,10 +721,10 @@ DeviceListViewControllerDelegate {
             return
         }
         
-        printLog(self, "didDisconnectPeripheral", "")
+        printLog(self, funcName: "didDisconnectPeripheral", logString: "")
         
         if currentPeripheral == nil {
-            printLog(self, "didDisconnectPeripheral", "No current peripheral found, unable to disconnect")
+            printLog(self, funcName: "didDisconnectPeripheral", logString: "No current peripheral found, unable to disconnect")
             return
         }
         
@@ -740,9 +735,9 @@ DeviceListViewControllerDelegate {
         
         //if status was connected, then disconnect was unexpected by the user, show alert
         let topVC = navController.topViewController
-        if  connectionStatus == ConnectionStatus.Connected && isModuleController(topVC) {
+        if  connectionStatus == ConnectionStatus.Connected && isModuleController(topVC!) {
             
-            printLog(self, "centralManager:didDisconnectPeripheral", "unexpected disconnect while connected")
+            printLog(self, funcName: "centralManager:didDisconnectPeripheral", logString: "unexpected disconnect while connected")
             
             //return to main view
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -755,7 +750,7 @@ DeviceListViewControllerDelegate {
             
             abortConnection()
             
-            printLog(self, "centralManager:didDisconnectPeripheral", "unexpected disconnect while connecting")
+            printLog(self, funcName: "centralManager:didDisconnectPeripheral", logString: "unexpected disconnect while connecting")
             
             //return to main view
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -774,7 +769,7 @@ DeviceListViewControllerDelegate {
     }
     
     
-    func centralManager(central: CBCentralManager!, didFailToConnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
+    func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
         
         if (delegate != nil) {
             delegate!.onDeviceConnectionChange(peripheral)
@@ -807,24 +802,14 @@ DeviceListViewControllerDelegate {
 
     func dereferenceModeController() {
         
-        pinIoViewController = nil
-        uartViewController = nil
-        deviceInfoViewController = nil
-        controllerViewController = nil
-        dfuViewController = nil
+        postureViewController = nil
     }
     
     
     func isModuleController(anObject:AnyObject)->Bool{
         
         var verdict = false
-        if     anObject.isMemberOfClass(PinIOViewController)
-            || anObject.isMemberOfClass(UARTViewController)
-            || anObject.isMemberOfClass(DeviceInfoViewController)
-            || anObject.isMemberOfClass(ControllerViewController)
-            || anObject.isMemberOfClass(DFUViewController)
-            || (anObject.title == "Control Pad")
-            || (anObject.title == "Color Picker") {
+        if anObject.isMemberOfClass(PostureViewController) {
                 verdict = true
         }
         
@@ -845,12 +830,12 @@ DeviceListViewControllerDelegate {
         
         //Bail if we aren't in the process of connecting
         if connectionStatus != ConnectionStatus.Connecting {
-            printLog(self, "connectionFinalized", "with incorrect state")
+            printLog(self, funcName: "connectionFinalized", logString: "with incorrect state")
             return
         }
         
         if (currentPeripheral == nil) {
-            printLog(self, "connectionFinalized", "Unable to start info w nil currentPeripheral")
+            printLog(self, funcName: "connectionFinalized", logString: "Unable to start info w nil currentPeripheral")
             return
         }
         
@@ -862,27 +847,27 @@ DeviceListViewControllerDelegate {
         //Push appropriate viewcontroller onto the navcontroller
         var vc:UIViewController? = nil
         switch connectionMode {
-        case ConnectionMode.PinIO:
-            pinIoViewController = PinIOViewController(delegate: self)
-            pinIoViewController.didConnect()
-            vc = pinIoViewController
-            break
+//        case ConnectionMode.PinIO:
+//            pinIoViewController = PinIOViewController(delegate: self)
+//            pinIoViewController.didConnect()
+//            vc = pinIoViewController
+//            break
         case ConnectionMode.UART:
-            uartViewController = UARTViewController(aDelegate: self)
-            uartViewController.didConnect()
-            vc = uartViewController
+            postureViewController = PostureViewController(aDelegate: self)
+            postureViewController.didConnect()
+            vc = postureViewController
             break
-        case ConnectionMode.Info:
-            deviceInfoViewController = DeviceInfoViewController(cbPeripheral: currentPeripheral!.currentPeripheral, delegate: self)
-            vc = deviceInfoViewController
-            break
-        case ConnectionMode.Controller:
-            controllerViewController = ControllerViewController(aDelegate: self)
-            vc = controllerViewController
-        case ConnectionMode.DFU:
-            printLog(self, (__FUNCTION__), "DFU mode")
+//        case ConnectionMode.Info:
+//            deviceInfoViewController = DeviceInfoViewController(cbPeripheral: currentPeripheral!.currentPeripheral, delegate: self)
+//            vc = deviceInfoViewController
+//            break
+//        case ConnectionMode.Controller:
+//            controllerViewController = ControllerViewController(aDelegate: self)
+//            vc = controllerViewController
+//        case ConnectionMode.DFU:
+//            printLog(self, funcName: (__FUNCTION__), logString: "DFU mode")
         default:
-            printLog(self, (__FUNCTION__), "No connection mode set")
+            printLog(self, funcName: (__FUNCTION__), logString: "No connection mode set")
             break
         }
         
@@ -896,20 +881,20 @@ DeviceListViewControllerDelegate {
     }
     
     
-    func launchDFU(peripheral:CBPeripheral){
-        
-        printLog(self, (__FUNCTION__), self.description)
-        
-        connectionMode = ConnectionMode.DFU
-        dfuViewController = DFUViewController()
-        dfuViewController.peripheral = peripheral
-        //        dfuViewController.navigationItem.rightBarButtonItem = infoBarButton
-        
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.pushViewController(self.dfuViewController!)
-        })
-        
-    }
+//    func launchDFU(peripheral:CBPeripheral){
+//        
+//        printLog(self, funcName: (__FUNCTION__), logString: self.description)
+//        
+//        connectionMode = ConnectionMode.DFU
+//        dfuViewController = DFUViewController()
+//        dfuViewController.peripheral = peripheral
+//        //        dfuViewController.navigationItem.rightBarButtonItem = infoBarButton
+//        
+//        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//            self.pushViewController(self.dfuViewController!)
+//        })
+//        
+//    }
     
     
     func uartDidEncounterError(error: NSString) {
@@ -933,23 +918,23 @@ DeviceListViewControllerDelegate {
         
         //Data incoming from UART peripheral, forward to current view controller
         
-        printLog(self, "didReceiveData", "\(newData.stringRepresentation())")
+        printLog(self, funcName: "didReceiveData", logString: "\(newData.stringRepresentation())")
         
         if (connectionStatus == ConnectionStatus.Connected ) {
             //UART
             if (connectionMode == ConnectionMode.UART) {
                 //send data to UART Controller
-                uartViewController.receiveData(newData)
+                postureViewController.receiveData(newData)
             }
                 
                 //Pin I/O
-            else if (connectionMode == ConnectionMode.PinIO) {
-                //send data to PIN IO Controller
-                pinIoViewController.receiveData(newData)
-            }
+//            else if (connectionMode == ConnectionMode.PinIO) {
+//                //send data to PIN IO Controller
+//                pinIoViewController.receiveData(newData)
+//            }
         }
         else {
-            printLog(self, "didReceiveData", "Received data without connection")
+            printLog(self, funcName: "didReceiveData", logString: "Received data without connection")
         }
         
     }
@@ -959,7 +944,7 @@ DeviceListViewControllerDelegate {
         
         //respond to device disconnecting
         
-        printLog(self, "peripheralDidDisconnect", "")
+        printLog(self, funcName: "peripheralDidDisconnect", logString: "")
         
         //if we were in the process of scanning/connecting, dismiss alert
         if (currentAlertView != nil) {
@@ -968,9 +953,9 @@ DeviceListViewControllerDelegate {
         
         //if status was connected, then disconnect was unexpected by the user, show alert
         let topVC = navController.topViewController
-        if  connectionStatus == ConnectionStatus.Connected && isModuleController(topVC) {
+        if  connectionStatus == ConnectionStatus.Connected && isModuleController(topVC!) {
             
-            printLog(self, "peripheralDidDisconnect", "unexpected disconnect while connected")
+            printLog(self, funcName: "peripheralDidDisconnect", logString: "unexpected disconnect while connected")
             
             //return to main view
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -1019,43 +1004,17 @@ DeviceListViewControllerDelegate {
         
         let hexString = newData.hexRepresentationWithSpaces(true)
         
-        printLog(self, "sendData", "\(hexString)")
+        printLog(self, funcName: "sendData", logString: "\(hexString)")
         
         
         if currentPeripheral == nil {
-            printLog(self, "sendData", "No current peripheral found, unable to send data")
+            printLog(self, funcName: "sendData", logString: "No current peripheral found, unable to send data")
             return
         }
         
         currentPeripheral!.writeRawData(newData)
         
     }
-    
-    //WatchKit requests
-    
-    func connectedInControllerMode()->Bool{
-        
-        if connectionStatus == ConnectionStatus.Connected &&
-            connectionMode == ConnectionMode.Controller   &&
-            controllerViewController != nil {
-                return true
-        }
-        else {
-            return false
-        }
-    }
-    
-    
-    func disconnectviaWatch(){
-        
-//        NSLog("disconnectviaWatch")
-        
-        controllerViewController?.stopSensorUpdates()
-        disconnect()
-//        navController.popToRootViewControllerAnimated(true)
-        
-    }
-    
 }
     
     
