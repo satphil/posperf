@@ -15,6 +15,35 @@ protocol PostureViewControllerDelegate: HelpViewControllerDelegate {
     func sendData(newData:NSData)
 }
 
+// Data Type Definitions
+enum PostureStatus:Int {
+    case OK
+    case Left
+    case Right
+    case Forward
+    case Back
+}
+
+public struct Vector {
+    var x:Float?
+    var y:Float?
+    var z:Float?
+}
+
+public struct SensorData {
+    var accel:Vector?
+    var mag:Vector?
+    var gyro:Vector?
+}
+
+enum ActuatorType {
+    case Buzzer
+}
+
+public struct ActuatorCommand {
+    var type:ActuatorType?
+    var id:Int? // 0, 1, 2, 3, etc
+}
 
 class PostureViewController: UIViewController {
     
@@ -50,9 +79,24 @@ class PostureViewController: UIViewController {
         NSLog("Transmission: %@", rx);
     }
     
-    // Example test method, see Adafruit_Bluefruit_LE_Connect_Tests.swift
-    func numberFive()->Int {
-        return 5
+    func parse(rx:NSString)->SensorData? {
+        var sensorData = SensorData()
+        
+        // TODO fill in sensorData from 'rx'
+        
+        return nil
+    }
+    
+    func unParse(tx:ActuatorCommand)->NSString {
+        // TODO build a string from 'tx'
+        
+        return ""
+    }
+    
+    func calculatePostureStatus(data:[SensorData])->PostureStatus {
+        // TODO analyse sensor datas and return posture status
+        
+        return PostureStatus.OK
     }
     
     func didConnect() {

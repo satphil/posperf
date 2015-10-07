@@ -9,10 +9,12 @@
 import XCTest
 
 class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
+    var vc:PostureViewController?
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        vc = PostureViewController()
     }
     
     override func tearDown() {
@@ -20,15 +22,13 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
         super.tearDown()
     }
     
-    func testReturnFive() {
-        let vc = PostureViewController();
-        XCTAssert(vc.numberFive() == 5);
+    func testCalculatePostureStatusEmpty() {
+        // no data points means OK posture, right?
+        XCTAssert(vc!.calculatePostureStatus([]) == PostureStatus.OK);
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.ß
-        XCTAssert(1 > 2);
+    func testParseBadData() {
+        let parsed = vc!.parse("!A0123.45@hello there!")
+        XCTAssert(parsed == nil) // ensure no SensorData was returned
     }
-    
 }
