@@ -21,7 +21,7 @@ class PostureViewController: UIViewController {
     var delegate:PostureViewControllerDelegate?
     @IBOutlet var helpViewController:HelpViewController!
     
-    convenience init(aDelegate:PostureViewControllerDelegate){
+    convenience init(aDelegate:PostureViewControllerDelegate?){
         self.init(nibName: "PostureViewController" as String, bundle: NSBundle.mainBundle())
         
         self.delegate = aDelegate
@@ -48,6 +48,10 @@ class PostureViewController: UIViewController {
     func receiveRX(rx:NSString) {
         // 'rx' is the bluetooth data transmission as a string
         NSLog("Transmission: %@", rx);
+    }
+    
+    func numberFive()->Int {
+        return 5
     }
     
     func didConnect() {

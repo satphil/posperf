@@ -20,6 +20,11 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
         super.tearDown()
     }
     
+    func testReturnFive() {
+        let vc = PostureViewController();
+        XCTAssert(vc.numberFive() == 5);
+    }
+    
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.ß
