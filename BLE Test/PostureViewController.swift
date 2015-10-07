@@ -37,7 +37,7 @@ class PostureViewController: UIViewController {
         
     }
     
-    func sendCommand(tx:NSString){
+    func transmitTX(tx:NSString){
         // 'tx' is the bluetooth command transmission as a string
         
         let data = NSData(bytes: tx.UTF8String, length: tx.length)
@@ -45,19 +45,22 @@ class PostureViewController: UIViewController {
         
     }
     
-    func receiveData(rxData : NSData){
-        
-        if (isViewLoaded() && view.window != nil) {
-            let rx = NSString(bytes: rxData.bytes, length: rxData.length, encoding: NSUTF8StringEncoding)
-            
-            // 'rx' is the bluetooth data transmission as a string
-            NSLog("Transmission: %@", rx!);
-        }
-        
+    func receiveRX(rx:NSString) {
+        // 'rx' is the bluetooth data transmission as a string
+        NSLog("Transmission: %@", rx);
     }
     
     func didConnect() {
         // bluetooth connection is now established
+    }
+    
+    func receiveData(rxData : NSData){
+        
+        if (isViewLoaded() && view.window != nil) {
+            let rx = NSString(bytes: rxData.bytes, length: rxData.length, encoding: NSUTF8StringEncoding)
+            receiveRX(rx!);
+        }
+        
     }
 }
 
