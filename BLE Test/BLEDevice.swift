@@ -202,7 +202,7 @@ class BLEDevice {
         if nameString == nil || nameString == "" {
             nameString = "N/A"
         }
-        self.name = nameString
+        self.name = nameString!
         
         //Check for UART & DFU services
         for id in completServiceUUIDs {

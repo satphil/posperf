@@ -196,12 +196,12 @@ class UARTViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             
             //Update ASCII text on background thread A
             let appendString = "" // or "\n"
-            let attrAString = NSAttributedString(string: ((newString! as String)+appendString), attributes: self.redFontDict as? [NSObject : AnyObject])
+            let attrAString = NSAttributedString(string: ((newString! as String)+appendString), attributes: self.redFontDict as? [String : AnyObject])
             let newAsciiText = NSMutableAttributedString(attributedString: self.consoleAsciiText!)
             newAsciiText.appendAttributedString(attrAString)
             
             let newHexString = newData.hexRepresentationWithSpaces(true)
-            let attrHString = NSAttributedString(string: newHexString as String, attributes: self.redFontDict as? [NSObject : AnyObject])
+            let attrHString = NSAttributedString(string: newHexString as String, attributes: self.redFontDict as? [String : AnyObject])
             let newHexText = NSMutableAttributedString(attributedString: self.consoleHexText!)
             newHexText.appendAttributedString(attrHString)
             
@@ -272,14 +272,14 @@ class UARTViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         
         //Update ASCII text
         let appendString = "" // or "\n"
-        let attrString = NSAttributedString(string: (newString as String) + appendString, attributes: blueFontDict as? [NSObject : AnyObject])
+        let attrString = NSAttributedString(string: (newString as String) + appendString, attributes: blueFontDict as? [String : AnyObject])
         let newAsciiText = NSMutableAttributedString(attributedString: self.consoleAsciiText!)
         newAsciiText.appendAttributedString(attrString)
         consoleAsciiText = newAsciiText
         
         
         //Update Hex text
-        let attrHexString = NSAttributedString(string: newString.toHexSpaceSeparated() as String, attributes: blueFontDict as? [NSObject : AnyObject])
+        let attrHexString = NSAttributedString(string: newString.toHexSpaceSeparated() as String, attributes: blueFontDict as? [String : AnyObject])
         let newHexText = NSMutableAttributedString(attributedString: self.consoleHexText!)
         newHexText.appendAttributedString(attrHexString)
         consoleHexText = newHexText
@@ -392,8 +392,8 @@ class UARTViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         
         if let keyboardSize = (sender.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
             
-            var yOffset:CGFloat = keyboardSize.height
-            var oldRect:CGRect = msgInputView.frame
+            let yOffset:CGFloat = keyboardSize.height
+            let oldRect:CGRect = msgInputView.frame
             msgInputYContraint?.constant += yOffset
             
             if IS_IPAD {
@@ -429,13 +429,13 @@ class UARTViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         //calculate new position for input view
         if let keyboardSize = (sender.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
             
-            var yOffset:CGFloat = keyboardSize.height
-            var oldRect:CGRect = msgInputView.frame
+            let yOffset:CGFloat = keyboardSize.height
+            let oldRect:CGRect = msgInputView.frame
             msgInputYContraint?.constant -= yOffset     //Using autolayout on iPad
             
 //            if (IS_IPAD){
             
-                var newRect = CGRectMake(oldRect.origin.x, oldRect.origin.y - yOffset, oldRect.size.width, oldRect.size.height)
+                let newRect = CGRectMake(oldRect.origin.x, oldRect.origin.y - yOffset, oldRect.size.width, oldRect.size.height)
                 self.msgInputView.frame = newRect   //frame animates automatically
 //            }
 //            

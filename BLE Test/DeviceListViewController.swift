@@ -15,7 +15,7 @@ protocol DeviceListViewControllerDelegate: HelpViewControllerDelegate, UIAlertVi
     var connectionMode:ConnectionMode { get }
     var warningLabel:UILabel! { get }
     func connectPeripheral(peripheral:CBPeripheral, mode:ConnectionMode)
-    func launchDFU(peripheral:CBPeripheral)
+    //func launchDFU(peripheral:CBPeripheral)
     func stopScan()
     func startScan()
 }
@@ -120,59 +120,59 @@ class DeviceListViewController : UIViewController, UITableViewDelegate, UITableV
         }
         
         let device = devices[sender.tag]
-        
-        // If device is not uart capable, go straight to Info mode
-        if device.isUART == false {
-            connectInMode(ConnectionMode.Info, peripheral: device.peripheral)
-            return
-        }
-        
-        //Show connection options for UART capable devices
-        var style = UIAlertControllerStyle.ActionSheet
-        if IS_IPAD {
-            style = UIAlertControllerStyle.Alert
-        }
-        let alertController = UIAlertController(title: "Connect to \(device.name)", message: "Choose mode:", preferredStyle: style)
-        
-        
-        // Cancel button
-        let aaCancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) { (aa:UIAlertAction) -> Void in }
-        alertController.addAction(aaCancel)
-        
-        // Info button
-        let aaInfo = UIAlertAction(title: "Info", style: UIAlertActionStyle.Default) { (aa:UIAlertAction) -> Void in
-            self.connectInMode(ConnectionMode.Info, peripheral: device.peripheral)
-        }
-        alertController.addAction(aaInfo)
-        
-        //UART button
-        let aaUART = UIAlertAction(title: "UART", style: UIAlertActionStyle.Default) { (aa:UIAlertAction) -> Void in
+//        
+//        // If device is not uart capable, go straight to Info mode
+//        if device.isUART == false {
+//            connectInMode(ConnectionMode.Info, peripheral: device.peripheral)
+//            return
+//        }
+//        
+//        //Show connection options for UART capable devices
+//        var style = UIAlertControllerStyle.ActionSheet
+//        if IS_IPAD {
+//            style = UIAlertControllerStyle.Alert
+//        }
+//        let alertController = UIAlertController(title: "Connect to \(device.name)", message: "Choose mode:", preferredStyle: style)
+//        
+//        
+//        // Cancel button
+//        let aaCancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) { (aa:UIAlertAction) -> Void in }
+//        alertController.addAction(aaCancel)
+//        
+//        // Info button
+//        let aaInfo = UIAlertAction(title: "Info", style: UIAlertActionStyle.Default) { (aa:UIAlertAction) -> Void in
+//            self.connectInMode(ConnectionMode.Info, peripheral: device.peripheral)
+//        }
+//        alertController.addAction(aaInfo)
+//        
+//        //UART button
+//        let aaUART = UIAlertAction(title: "UART", style: UIAlertActionStyle.Default) { (aa:UIAlertAction) -> Void in
             self.connectInMode(ConnectionMode.UART, peripheral: device.peripheral)
-        }
-        alertController.addAction(aaUART)
-        
-        //Pin I/O button
-        let aaPinIO = UIAlertAction(title: "Pin I/O", style: UIAlertActionStyle.Default) { (aa:UIAlertAction) -> Void in
-            self.connectInMode(ConnectionMode.PinIO, peripheral: device.peripheral)
-        }
-        alertController.addAction(aaPinIO)
-        
-        //Controller Button
-        let aaController = UIAlertAction(title: "Controller", style: UIAlertActionStyle.Default) { (aa:UIAlertAction) -> Void in
-            self.connectInMode(ConnectionMode.Controller, peripheral: device.peripheral)
-        }
-        alertController.addAction(aaController)
-        
-        // DFU button
-        let aaUpdater = UIAlertAction(title: "Firmware Updater", style: UIAlertActionStyle.Default) { (aa:UIAlertAction!) -> Void in
-            delegate?.launchDFU(device.peripheral)
-        }
-        alertController.addAction(aaUpdater)
-        
-        
-        self.presentViewController(alertController, animated: true) { () -> Void in
-            
-        }
+//        }
+//        alertController.addAction(aaUART)
+//        
+//        //Pin I/O button
+//        let aaPinIO = UIAlertAction(title: "Pin I/O", style: UIAlertActionStyle.Default) { (aa:UIAlertAction) -> Void in
+//            self.connectInMode(ConnectionMode.PinIO, peripheral: device.peripheral)
+//        }
+//        alertController.addAction(aaPinIO)
+//        
+//        //Controller Button
+//        let aaController = UIAlertAction(title: "Controller", style: UIAlertActionStyle.Default) { (aa:UIAlertAction) -> Void in
+//            self.connectInMode(ConnectionMode.Controller, peripheral: device.peripheral)
+//        }
+//        alertController.addAction(aaController)
+//        
+//        // DFU button
+//        let aaUpdater = UIAlertAction(title: "Firmware Updater", style: UIAlertActionStyle.Default) { (aa:UIAlertAction!) -> Void in
+//            delegate?.launchDFU(device.peripheral)
+//        }
+//        alertController.addAction(aaUpdater)
+//        
+//        
+//        self.presentViewController(alertController, animated: true) { () -> Void in
+//            
+//        }
         
     }
     
@@ -242,7 +242,7 @@ class DeviceListViewController : UIViewController, UITableViewDelegate, UITableV
         delay(0.45, closure: { () -> () in
             sender.endRefreshing()
             
-            delay(0.25, { () -> () in
+            delay(0.25, closure: { () -> () in
                 self.tableIsLoading = true
                 self.tableView.reloadData()
                 self.tableIsLoading = false
