@@ -25,20 +25,23 @@ enum PostureStatus:Int {
 }
 
 public struct Vector {
-    var x:Float?
-    var y:Float?
-    var z:Float?
+    var x:Float
+    var y:Float
+    var z:Float
 }
 
 public struct SensorData {
-    var accel:Vector?
-    var mag:Vector?
-    var gyro:Vector?
+    var accel:Vector
+    var mag:Vector
+    var gyro:Vector
 }
 
 enum ActuatorType {
     case Buzzer
 }
+
+public let gyroTrigger = 400 // sense data beyond which we sense a lean
+public let triggerCount = 3 // number of times in a row that a trigger has to occur to sound an alarm
 
 public struct ActuatorCommand {
     var type:ActuatorType?
@@ -87,13 +90,13 @@ class PostureViewController: UIViewController {
         return nil
     }
     
-    func unParse(tx:ActuatorCommand)->NSString {
+    func unParse(tx:Int)->NSString {
         // TODO build a string from 'tx'
         
         return ""
     }
     
-    func calculatePostureStatus(data:[SensorData])->PostureStatus {
+    func calculatePostureStatus(data:SensorData)->PostureStatus {
         // TODO analyse sensor datas and return posture status
         
         return PostureStatus.OK
