@@ -18,6 +18,7 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
         accel: Vector(x: 0,y: 0,z: 0),
         mag: Vector(x: 0,y: 0,z: 0),
         gyro: Vector(x: 0,y: 0,z: 0))
+    var status: PostureStatus = PostureStatus.OK
     
     override func setUp() {
         super.setUp()
@@ -63,10 +64,13 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
     }
     
     func testCalculatePostureStatusGood() {
-        for _ in 1...triggerCount+2 {
+        for i in 1...triggerCount+2 {
             prepSensorData(PostureStatus.OK)
-            XCTAssertEqual(vc!.calculatePostureStatus(testSensor), PostureStatus.OK, "sent good posture data but did not get an OK response")
+            status = vc!.calculatePostureStatus(testSensor)
+            if i > triggerCount {
+                XCTAssert(status == PostureStatus.OK, "sent good posture data but did not get an OK response")
             }
+        }
     }
     
     func testCalculatePostureStatusMixed() {
@@ -106,7 +110,6 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
     func testCalculatePostureStatusBad() {
         testCalculatePostureStatusGood() // send some good posture data to begin with
         // then send data representing lean forward posture data
-        var status: PostureStatus = PostureStatus.OK
         for _ in 1...triggerCount {
             prepSensorData(PostureStatus.Forward)
             status = vc!.calculatePostureStatus(testSensor)
