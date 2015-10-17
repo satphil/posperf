@@ -131,7 +131,9 @@ class PostureViewController: UIViewController {
     }
     
     func unParse(tx:Int)->NSString {
-        // TODO build a string from 'tx'
+        if case 0...4 = tx {
+            return "!B\(tx)@"
+        }
         
         return ""
     }
