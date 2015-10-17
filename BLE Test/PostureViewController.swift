@@ -25,9 +25,9 @@ enum PostureStatus:Int {
 }
 
 public struct Vector {
-    var x:Float
-    var y:Float
-    var z:Float
+    var x:Int
+    var y:Int
+    var z:Int
 }
 
 public struct SensorData {
@@ -87,7 +87,7 @@ class PostureViewController: UIViewController {
         // use it to fill a sensorData structure
         // if an error, return nil structure
         var xyz: [String]
-        var x, y, z: Float
+        var x, y, z: Int
         var vector = rx.componentsSeparatedByString("!") // split into vectors
         if vector[0] != "" { return nil } // first character is supposed to be "!" so first split should be empty string
         for i in 1...3 {

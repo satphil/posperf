@@ -8,34 +8,16 @@
 
 import XCTest
 
-public extension Float {
-    /**
-    Returns a random floating point number between 0.0 and 1.0, inclusive.
-    By DaRkDOG, modified by Phil
-    */
-    public static func random() -> Float {
-        return Float(arc4random()) / 0xFFFF_FFFF
-    }
-    /**
-    Create a random num Float
-    :param: lower number Float
-    :param: upper number Float
-    :return: random number Float
-    By DaRkDOG
-    */
-    public static func random(min min: Int, max: Int) -> Float {
-        return Float.random() * Float((max - min) + min)
-    }
-}
+let minSense = -0x4_000  // = -2^14
+let maxSense = 0x4_000  // = +2^14
 
 class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
+    
     var vc:PostureViewController?
-    let minSense = -0x4_000  // = -2^14
-    let maxSense = 0x4_000  // = +2^14
     var testSensor = SensorData(
-        accel: Vector(x: 0.0,y: 0.0,z: 0.0),
-        mag: Vector(x: 0.0,y: 0.0,z: 0.0),
-        gyro: Vector(x: 0.0,y: 0.0,z: 0.0))
+        accel: Vector(x: 0,y: 0,z: 0),
+        mag: Vector(x: 0,y: 0,z: 0),
+        gyro: Vector(x: 0,y: 0,z: 0))
     
     override func setUp() {
         super.setUp()
@@ -49,31 +31,35 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
         super.tearDown()
     }
     
+    func randomSense(min min: Int = minSense, max: Int = maxSense) -> Int {
+        return Int(arc4random_uniform(UInt32(max-min))) + min
+    }
+
     func prepSensorData(posture: PostureStatus) {
-        testSensor.accel.x = Float.random(min: minSense, max: maxSense)
-        testSensor.accel.y = Float.random(min: minSense, max: maxSense)
-        testSensor.accel.z = Float.random(min: minSense, max: maxSense)
-        testSensor.gyro.y = Float.random(min: minSense, max: maxSense)
+        testSensor.accel.x = randomSense()
+        testSensor.accel.y = randomSense()
+        testSensor.accel.z = randomSense()
+        testSensor.gyro.y = randomSense()
         switch posture {
         case PostureStatus.OK:
-            testSensor.gyro.x = Float.random(min: -gyroTrigger, max: gyroTrigger)
-            testSensor.gyro.z = Float.random(min: -gyroTrigger, max: gyroTrigger)
+            testSensor.gyro.x = randomSense(min: -gyroTrigger, max: gyroTrigger)
+            testSensor.gyro.z = randomSense(min: -gyroTrigger, max: gyroTrigger)
         case PostureStatus.Back:
-            testSensor.gyro.x = Float.random(min: minSense, max: -gyroTrigger-1)
-            testSensor.gyro.z = Float.random(min: -gyroTrigger, max: gyroTrigger)
+            testSensor.gyro.x = randomSense(min: minSense, max: -gyroTrigger-1)
+            testSensor.gyro.z = randomSense(min: -gyroTrigger, max: gyroTrigger)
         case PostureStatus.Forward:
-            testSensor.gyro.x = Float.random(min: gyroTrigger+1, max: maxSense)
-            testSensor.gyro.z = Float.random(min: -gyroTrigger, max: gyroTrigger)
+            testSensor.gyro.x = randomSense(min: gyroTrigger+1, max: maxSense)
+            testSensor.gyro.z = randomSense(min: -gyroTrigger, max: gyroTrigger)
         case PostureStatus.Left:
-            testSensor.gyro.x = Float.random(min: -gyroTrigger, max: gyroTrigger)
-            testSensor.gyro.z = Float.random(min: gyroTrigger+1, max: maxSense)
+            testSensor.gyro.x = randomSense(min: -gyroTrigger, max: gyroTrigger)
+            testSensor.gyro.z = randomSense(min: gyroTrigger+1, max: maxSense)
         case PostureStatus.Right:
-            testSensor.gyro.x = Float.random(min: -gyroTrigger, max: gyroTrigger)
-            testSensor.gyro.z = Float.random(min: minSense, max: -gyroTrigger-1)
+            testSensor.gyro.x = randomSense(min: -gyroTrigger, max: gyroTrigger)
+            testSensor.gyro.z = randomSense(min: minSense, max: -gyroTrigger-1)
         }
-        testSensor.mag.x = Float.random(min: minSense, max: maxSense)
-        testSensor.mag.y = Float.random(min: minSense, max: maxSense)
-        testSensor.mag.z = Float.random(min: minSense, max: maxSense)
+        testSensor.mag.x = randomSense()
+        testSensor.mag.y = randomSense()
+        testSensor.mag.z = randomSense()
     }
     
     func testCalculatePostureStatusGood() {
@@ -147,15 +133,15 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
         let parsed = vc!.parse("!A0-1037.00@-14939.00@6112.00!G0194.00@-116.00@-266.00!M0870.00@-3623.00@-1348.00")
         XCTAssert(parsed != nil, "parsed returned a nil value to good data")
         dataGood =
-            parsed!.accel.x == -1037.00 &&
-            parsed!.accel.y == -14939.00 &&
-            parsed!.accel.z == 6112.00 &&
-            parsed!.gyro.x == 194.00 &&
-            parsed!.gyro.y == -116.00 &&
-            parsed!.gyro.z == -266.00 &&
-            parsed!.mag.x == 870.00 &&
-            parsed!.mag.y == -3623.00 &&
-            parsed!.mag.z == -1348.00
+            parsed!.accel.x == -1037 &&
+            parsed!.accel.y == -14939 &&
+            parsed!.accel.z == 6112 &&
+            parsed!.gyro.x == 194 &&
+            parsed!.gyro.y == -116 &&
+            parsed!.gyro.z == -266 &&
+            parsed!.mag.x == 870 &&
+            parsed!.mag.y == -3623 &&
+            parsed!.mag.z == -1348
         XCTAssert(dataGood == true, "parsed returned incorrect SensorData")
     }
     
