@@ -44,11 +44,11 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
         case PostureStatus.OK:
             testSensor.gyro.x = randomSense(min: -gyroTrigger, max: gyroTrigger)
             testSensor.gyro.z = randomSense(min: -gyroTrigger, max: gyroTrigger)
-        case PostureStatus.Back:
-            testSensor.gyro.x = randomSense(min: minSense, max: -gyroTrigger-1)
-            testSensor.gyro.z = randomSense(min: -gyroTrigger, max: gyroTrigger)
         case PostureStatus.Forward:
             testSensor.gyro.x = randomSense(min: gyroTrigger+1, max: maxSense)
+            testSensor.gyro.z = randomSense(min: -gyroTrigger, max: gyroTrigger)
+        case PostureStatus.Back:
+            testSensor.gyro.x = randomSense(min: minSense, max: -gyroTrigger-1)
             testSensor.gyro.z = randomSense(min: -gyroTrigger, max: gyroTrigger)
         case PostureStatus.Left:
             testSensor.gyro.x = randomSense(min: -gyroTrigger, max: gyroTrigger)
@@ -76,21 +76,25 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
         
         for _ in 1..<triggerCount {
             prepSensorData(PostureStatus.Forward)
+            testSensor.gyro.x = randomSense(min: gyroTrigger+1, max: gyroTrigger+gyroTrigger/triggerCount)
             XCTAssert(vc!.calculatePostureStatus(testSensor) == PostureStatus.OK, "sent too few lean forward posture data but didn't get OK response")
         }
         // then send data representing lean back posture data
         for _ in 1..<triggerCount {
             prepSensorData(PostureStatus.Back)
+            testSensor.gyro.x = randomSense(min: -gyroTrigger-gyroTrigger/triggerCount, max: -gyroTrigger-1)
             XCTAssert(vc!.calculatePostureStatus(testSensor) == PostureStatus.OK, "sent too few lean back posture data but didn't get OK response")
         }
         // then send data representing lean left posture data
         for _ in 1..<triggerCount {
             prepSensorData(PostureStatus.Left)
+            testSensor.gyro.z = randomSense(min: gyroTrigger+1, max: gyroTrigger+gyroTrigger/triggerCount)
             XCTAssert(vc!.calculatePostureStatus(testSensor) == PostureStatus.OK, "sent too few lean left posture data but didn't get OK response")
         }
         // then send data representing lean right posture data
         for _ in 1..<triggerCount {
             prepSensorData(PostureStatus.Right)
+            testSensor.gyro.z = randomSense(min: -gyroTrigger-gyroTrigger/triggerCount, max: -gyroTrigger-1)
             XCTAssert(vc!.calculatePostureStatus(testSensor) == PostureStatus.OK, "sent too few lean right posture data but didn't get OK response")
         }
         testCalculatePostureStatusGood() // send some more good posture data
