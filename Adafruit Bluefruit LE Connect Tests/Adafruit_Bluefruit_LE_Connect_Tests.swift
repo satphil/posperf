@@ -32,7 +32,7 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
     }
     
     func randomSense(min min: Int = minSense, max: Int = maxSense) -> Int {
-        return Int(arc4random_uniform(UInt32(max-min))) + min
+        return Int(arc4random_uniform(UInt32(max-min+1))) + min
     }
 
     func prepSensorData(posture: PostureStatus) {
