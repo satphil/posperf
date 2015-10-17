@@ -114,7 +114,9 @@ class PostureViewController: UIViewController {
             
             xyz = vector[i].componentsSeparatedByString("@") // split into x, y and z values
             if xyz.count != 3 { return nil } // should split into exactly 3 strings
-            
+            for k in 0...2 {  // strip trailing ".00" before converting to Int
+                xyz[k] = xyz[k].stringByReplacingOccurrencesOfString(".00", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            }
             switch i {
             case 1:
                 if let j = Int(xyz[0]) { sensorData.accel.x = j } else { return nil }
