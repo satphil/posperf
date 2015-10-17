@@ -65,7 +65,7 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
     func testCalculatePostureStatusGood() {
         for _ in 1...triggerCount+2 {
             prepSensorData(PostureStatus.OK)
-            XCTAssert(vc!.calculatePostureStatus(testSensor) == PostureStatus.OK, "sent good posture data but did get an OK response")
+            XCTAssertEqual(vc!.calculatePostureStatus(testSensor), PostureStatus.OK, "sent good posture data but did not get an OK response")
             }
     }
     
@@ -85,6 +85,9 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
             testSensor.gyro.x = randomSense(min: -gyroTrigger-gyroTrigger/triggerCount, max: -gyroTrigger-1)
             XCTAssert(vc!.calculatePostureStatus(testSensor) == PostureStatus.OK, "sent too few lean back posture data but didn't get OK response")
         }
+        // nullify any lingering "back" measurements with a forward one
+        testSensor.gyro.x = randomSense(min: gyroTrigger+1, max: gyroTrigger+gyroTrigger/triggerCount)
+        XCTAssert(vc!.calculatePostureStatus(testSensor) == PostureStatus.OK, "sent too few lean forward posture data but didn't get OK response")
         // then send data representing lean left posture data
         for _ in 1..<triggerCount {
             prepSensorData(PostureStatus.Left)
@@ -103,28 +106,33 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
     func testCalculatePostureStatusBad() {
         testCalculatePostureStatusGood() // send some good posture data to begin with
         // then send data representing lean forward posture data
+        var status: PostureStatus = PostureStatus.OK
         for _ in 1...triggerCount {
             prepSensorData(PostureStatus.Forward)
-            XCTAssert(vc!.calculatePostureStatus(testSensor) == PostureStatus.Forward, "sent lean forward posture data but didn't get 'forward' response")
+            status = vc!.calculatePostureStatus(testSensor)
         }
+        XCTAssert( status == PostureStatus.Forward, "sent lean forward posture data but didn't get 'forward' response")
         testCalculatePostureStatusGood() // send some more good posture data
         // then send data representing lean back posture data
         for _ in 1...triggerCount {
             prepSensorData(PostureStatus.Back)
-            XCTAssert(vc!.calculatePostureStatus(testSensor) == PostureStatus.Back, "sent lean back posture data but didn't get 'back' response")
+            status = vc!.calculatePostureStatus(testSensor)
         }
+        XCTAssert( status == PostureStatus.Back, "sent lean back posture data but didn't get 'back' response")
         testCalculatePostureStatusGood() // send some more good posture data
         // then send data representing lean left posture data
         for _ in 1...triggerCount {
             prepSensorData(PostureStatus.Left)
-            XCTAssert(vc!.calculatePostureStatus(testSensor) == PostureStatus.Left, "sent lean left posture data but didn't get 'left' response")
+            status = vc!.calculatePostureStatus(testSensor)
         }
+        XCTAssert( status == PostureStatus.Left, "sent lean left posture data but didn't get 'left' response")
         testCalculatePostureStatusGood() // send some more good posture data
         // then send data representing lean right posture data
         for _ in 1...triggerCount {
             prepSensorData(PostureStatus.Right)
-            XCTAssert(vc!.calculatePostureStatus(testSensor) == PostureStatus.Right, "sent lean right posture data but didn't get 'right' response")
+            status = vc!.calculatePostureStatus(testSensor)
         }
+        XCTAssert( status == PostureStatus.Right, "sent lean right posture data but didn't get 'right' response")
     }
     
     func testParseBadData() {

@@ -145,21 +145,21 @@ class PostureViewController: UIViewController {
     
     func calculatePostureStatus(sensorData:SensorData)->PostureStatus {
         var runningAvg: Int
-        sumX -= ax[0] // ignore oldest accel.x value
+        sumX -= ax[0] // ignore oldest gyro.x value
         for i in 0..<ax.count-1 {
             ax[i] = ax[i+1] // shunt older values back
         }
-        ax[ax.count-1] = sensorData.accel.x // introduce new value
+        ax[ax.count-1] = sensorData.gyro.x // introduce new value
         sumX += ax[ax.count-1] // new sum of last three values
         runningAvg = sumX/ax.count
         if runningAvg > gyroTrigger {return PostureStatus.Forward}
         else if runningAvg < -gyroTrigger {return PostureStatus.Back}
         
-        sumZ -= az[0] // ignore oldest accel.x value
+        sumZ -= az[0] // ignore oldest gyro.x value
         for i in 0..<az.count-1 {
             az[i] = az[i+1] // shunt older values back
         }
-        az[az.count-1] = sensorData.accel.z // introduce new value
+        az[az.count-1] = sensorData.gyro.z // introduce new value
         sumZ += az[az.count-1] // new sum of last three values
         runningAvg = sumZ/az.count
         if runningAvg > gyroTrigger {return PostureStatus.Left}
