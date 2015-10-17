@@ -62,7 +62,7 @@ class PostureViewController: UIViewController {
     var ax = [Int](count: triggerCount, repeatedValue: 0)
     var az = [Int](count: triggerCount, repeatedValue: 0)
     var sumX=0, sumZ=0
-
+    
     
     override func viewDidLoad(){
         
@@ -96,7 +96,7 @@ class PostureViewController: UIViewController {
             gyro: Vector(x: 0,y: 0,z: 0))
         var vector = rx.componentsSeparatedByString("!") // split into vectors
         if vector.count != 4 || vector[0] != ""  { return nil } // first character is supposed to be "!" so first split should be empty string
-                            // then there should be one vector for each of array, gyro and mag so a total of 4 entries
+        // then there should be one vector for each of array, gyro and mag so a total of 4 entries
         for i in 1...3 {
             var prefix: String
             switch i {
@@ -104,7 +104,7 @@ class PostureViewController: UIViewController {
                 prefix="A0"
             case 2:
                 prefix="G0"
-            case 3:
+            default:
                 prefix="M0"
             }
             
@@ -124,7 +124,7 @@ class PostureViewController: UIViewController {
                 if let j = Int(xyz[0]) { sensorData.gyro.x = j } else { return nil }
                 if let j = Int(xyz[1]) { sensorData.gyro.y = j } else { return nil }
                 if let j = Int(xyz[2]) { sensorData.gyro.z = j } else { return nil }
-            case 3:
+            default:
                 if let j = Int(xyz[0]) { sensorData.mag.x = j } else { return nil }
                 if let j = Int(xyz[1]) { sensorData.mag.y = j } else { return nil }
                 if let j = Int(xyz[2]) { sensorData.mag.z = j } else { return nil }
@@ -152,7 +152,7 @@ class PostureViewController: UIViewController {
         runningAvg = sumX/ax.count
         if runningAvg > gyroTrigger {return PostureStatus.Forward}
         else if runningAvg < -gyroTrigger {return PostureStatus.Back}
-       
+        
         sumZ -= az[0] // ignore oldest accel.x value
         for i in 0..<az.count-1 {
             az[i] = az[i+1] // shunt older values back
