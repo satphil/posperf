@@ -87,7 +87,10 @@ class PostureViewController: UIViewController {
         // use it to fill a sensorData structure
         // if an error, return nil structure
         var xyz: [String]
-        var x, y, z: Int
+        var sensorData = SensorData(
+            accel: Vector(x: 0,y: 0,z: 0),
+            mag: Vector(x: 0,y: 0,z: 0),
+            gyro: Vector(x: 0,y: 0,z: 0))
         var vector = rx.componentsSeparatedByString("!") // split into vectors
         if vector[0] != "" { return nil } // first character is supposed to be "!" so first split should be empty string
         for i in 1...3 {
@@ -106,22 +109,20 @@ class PostureViewController: UIViewController {
             xyz = vector[i].componentsSeparatedByString("@") // split into x, y and z values
             switch i {
             case 1:
-                prefix="A0"
+                if let j = Int(xyz[0]) { sensorData.accel.x = j } else { return nil }
+                if let j = Int(xyz[1]) { sensorData.accel.y = j } else { return nil }
+                if let j = Int(xyz[2]) { sensorData.accel.z = j } else { return nil }
             case 2:
-                prefix="G0"
+                if let j = Int(xyz[0]) { sensorData.gyro.x = j } else { return nil }
+                if let j = Int(xyz[1]) { sensorData.gyro.y = j } else { return nil }
+                if let j = Int(xyz[2]) { sensorData.gyro.z = j } else { return nil }
             case 3:
-                prefix="M0"
+                if let j = Int(xyz[0]) { sensorData.mag.x = j } else { return nil }
+                if let j = Int(xyz[1]) { sensorData.mag.y = j } else { return nil }
+                if let j = Int(xyz[2]) { sensorData.mag.z = j } else { return nil }
             }
-            
-        
         }
-        //rx.componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: "!@"))
-        var sensorData: SensorData
-        
-        
-        // TODO fill in sensorData from 'rx'
-        
-        return nil
+        return sensorData
     }
     
     func unParse(tx:Int)->NSString {
