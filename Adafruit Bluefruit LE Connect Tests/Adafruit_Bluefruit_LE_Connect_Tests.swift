@@ -136,17 +136,19 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
         var dataGood: Bool = false
         let parsed = vc!.parse("!A0-1037.00@-14939.00@6112.00!G0194.00@-116.00@-266.00!M0870.00@-3623.00@-1348.00")
         XCTAssert(parsed != nil, "parsed returned a nil value to good data")
-        dataGood =
-            parsed!.accel.x == -1037 &&
-            parsed!.accel.y == -14939 &&
-            parsed!.accel.z == 6112 &&
-            parsed!.gyro.x == 194 &&
-            parsed!.gyro.y == -116 &&
-            parsed!.gyro.z == -266 &&
-            parsed!.mag.x == 870 &&
-            parsed!.mag.y == -3623 &&
-            parsed!.mag.z == -1348
-        XCTAssert(dataGood == true, "parsed returned incorrect SensorData")
+        if (parsed != nil) {
+            dataGood =
+                parsed!.accel.x == -1037 &&
+                parsed!.accel.y == -14939 &&
+                parsed!.accel.z == 6112 &&
+                parsed!.gyro.x == 194 &&
+                parsed!.gyro.y == -116 &&
+                parsed!.gyro.z == -266 &&
+                parsed!.mag.x == 870 &&
+                parsed!.mag.y == -3623 &&
+                parsed!.mag.z == -1348
+            XCTAssert(dataGood == true, "parsed returned incorrect SensorData")
+        }
     }
     
     func testunParseBadData() {
