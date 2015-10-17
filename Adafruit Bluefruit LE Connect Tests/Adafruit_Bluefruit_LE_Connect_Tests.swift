@@ -70,8 +70,6 @@ class Adafruit_Bluefruit_LE_Connect_Tests: XCTestCase {
         case PostureStatus.Right:
             testSensor.gyro.x = Float.random(min: -gyroTrigger, max: gyroTrigger)
             testSensor.gyro.z = Float.random(min: minSense, max: -gyroTrigger-1)
-        default:
-            break
         }
         testSensor.mag.x = Float.random(min: minSense, max: maxSense)
         testSensor.mag.y = Float.random(min: minSense, max: maxSense)
