@@ -92,7 +92,8 @@ class PostureViewController: UIViewController {
             mag: Vector(x: 0,y: 0,z: 0),
             gyro: Vector(x: 0,y: 0,z: 0))
         var vector = rx.componentsSeparatedByString("!") // split into vectors
-        if vector[0] != "" { return nil } // first character is supposed to be "!" so first split should be empty string
+        if vector.count != 4 || vector[0] != ""  { return nil } // first character is supposed to be "!" so first split should be empty string
+                            // then there should be one vector for each of array, gyro and mag so a total of 4 entries
         for i in 1...3 {
             var prefix: String
             switch i {
@@ -103,10 +104,14 @@ class PostureViewController: UIViewController {
             case 3:
                 prefix="M0"
             }
+            
             if !vector[i].hasPrefix(prefix) {return nil}  // next two chars are supposed to be prefix
             vector[i].removeAtIndex(vector[i].startIndex) // remove prefix i.e. first two characters
             vector[i].removeAtIndex(vector[i].startIndex)
+            
             xyz = vector[i].componentsSeparatedByString("@") // split into x, y and z values
+            if xyz.count != 3 { return nil } // should split into exactly 3 strings
+            
             switch i {
             case 1:
                 if let j = Int(xyz[0]) { sensorData.accel.x = j } else { return nil }
