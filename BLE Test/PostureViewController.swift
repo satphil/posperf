@@ -83,7 +83,41 @@ class PostureViewController: UIViewController {
     }
     
     func parse(rx:NSString)->SensorData? {
-        var sensorData = SensorData()
+        // typical input string: !A0-1037.00@-14939.00@6112.00!G0194.00@-116.00@-266.00!M0870.00@-3623.00@-1348.00
+        // use it to fill a sensorData structure
+        // if an error, return nil structure
+        var xyz: [String]
+        var x, y, z: Float
+        var vector = rx.componentsSeparatedByString("!") // split into vectors
+        if vector[0] != "" { return nil } // first character is supposed to be "!" so first split should be empty string
+        for i in 1...3 {
+            var prefix: String
+            switch i {
+            case 1:
+                prefix="A0"
+            case 2:
+                prefix="G0"
+            case 3:
+                prefix="M0"
+            }
+            if !vector[i].hasPrefix(prefix) {return nil}  // next two chars are supposed to be prefix
+            vector[i].removeAtIndex(vector[i].startIndex) // remove prefix i.e. first two characters
+            vector[i].removeAtIndex(vector[i].startIndex)
+            xyz = vector[i].componentsSeparatedByString("@") // split into x, y and z values
+            switch i {
+            case 1:
+                prefix="A0"
+            case 2:
+                prefix="G0"
+            case 3:
+                prefix="M0"
+            }
+            
+        
+        }
+        //rx.componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: "!@"))
+        var sensorData: SensorData
+        
         
         // TODO fill in sensorData from 'rx'
         
